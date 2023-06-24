@@ -6,7 +6,7 @@ namespace SponsorAPI\Configs;
 
 interface RedisConfigurations
 {
-    public const SOCKET = "";
+    public const SOCKET = null;
 
     public const HOST = "127.0.0.1";
 
