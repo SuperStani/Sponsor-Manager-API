@@ -46,10 +46,11 @@ class DB
         if ($conn !== null) {
             $stmt = $conn->prepare($stmtQuery);
             foreach ($args as $key => &$value) {
+                $key = $key + 1;
                 if (is_numeric($value)) {
-                    $stmt->bindParam($key + 1, $value, \PDO::PARAM_INT);
+                    $stmt->bindParam($key, $value, \PDO::PARAM_INT);
                 } else {
-                    $stmt->bindParam($key + 1, $value);
+                    $stmt->bindParam($key, $value);
                 }
             }
             if ($stmt->execute()) {
