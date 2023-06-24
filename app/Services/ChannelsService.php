@@ -22,7 +22,7 @@ class ChannelsService
 
     public function getInviteUrls(string $bot_username): array|bool
     {
-        if($data = $this->cacheService->getInviteUrls(bot_username: $bot_username) !== false) {
+        if(($data = $this->cacheService->getInviteUrls(bot_username: $bot_username)) !== false) {
             $data = $this->channelsRepository->getInviteUrlsByBotUsername(bot_username: $bot_username);
             $this->cacheService->saveInviteUrls(bot_username: $bot_username, value: $data);
         }

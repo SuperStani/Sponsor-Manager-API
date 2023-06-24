@@ -36,6 +36,7 @@ class ChannelsRepository
                  ) channels
             LEFT JOIN channels_invite_urls ciu
             ON ciu.channel_id = channels.channel_id
+            WHERE ciu.bot_username = ?
             ORDER by channels.datetime LIMIT 5
         ";
         $res = $this->db->query($query, $bot_username);
