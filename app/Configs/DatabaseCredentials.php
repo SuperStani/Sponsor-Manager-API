@@ -14,5 +14,5 @@ interface DatabaseCredentials
 
     public const PASSWORD = "@Naruto96";
 
-    public const DATABASE = "sponsorManagement";
+    public const DATABASE = "sponsorManager";
 }
