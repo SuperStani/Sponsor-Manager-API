@@ -21,18 +21,20 @@ class TelegramBotApi
 
     public function checkUserSubscribedOnChannel(int $user_id, int $channel_id): bool
     {
-        $response = json_decode($this->apiRequest('d', ["channel_id" => $channel_id, "user_id" => $user_id]));
+        $response = json_decode($this->apiRequest('getChatMember', ["channel_id" => $channel_id, "user_id" => $user_id]), true);
         if($response !== null) {
-            return true;
+            if(isset($response['status']) && $response['status'] == 'Member') {
+                return true;
+            }
         }
         return false;
     }
 
-    private function apiRequest(string $method, mixed...$args): ?string
+    private function apiRequest(string $method, ...$args): ?string
     {
         $options = [
             "connect_timeout" => 2,
-            "timeout" => 5
+            "timeout" => 2
         ];
         $query_params = http_build_query($args);
         $url = $this->api_url . $this->bot_token . "/" . $method . "?" . $query_params;
