@@ -8,7 +8,7 @@ interface RedisConfigurations
 {
     public const SOCKET = "";
 
-    public const IP = "127.0.0.1";
+    public const HOST = "127.0.0.1";
 
     public const PORT = 6379;
 
