@@ -28,7 +28,7 @@ class CacheService
     public function getInviteUrls(string $bot_username): array|bool
     {
         try {
-            return json_decode($this->redisController->getKey(GeneralConfigurations::APP_PREFIX . "_INVITE_URLS_" . $bot_username));
+            return json_decode($this->redisController->getKey(GeneralConfigurations::APP_PREFIX . "_INVITE_URLS_" . $bot_username)) ?? false;
         } catch (\Exception $e) {
 
         }
