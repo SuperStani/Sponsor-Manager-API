@@ -25,7 +25,7 @@ class CacheService
         }
     }
 
-    public function getInviteUrls(string $bot_username): array|bool
+    public function getInviteUrls(string $bot_username): mixed
     {
         try {
             return json_decode($this->redisController->getKey(GeneralConfigurations::APP_PREFIX . "_INVITE_URLS_" . $bot_username));

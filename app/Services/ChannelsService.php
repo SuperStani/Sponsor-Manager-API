@@ -20,7 +20,7 @@ class ChannelsService
         $this->cacheService = $cacheService;
     }
 
-    public function getInviteUrls(string $bot_username): array
+    public function getInviteUrls(string $bot_username): array|bool
     {
         if($data = $this->cacheService->getInviteUrls(bot_username: $bot_username) !== false) {
             $data = $this->channelsRepository->getInviteUrlsByBotUsername(bot_username: $bot_username);
