@@ -2,8 +2,6 @@
 
 namespace SponsorAPI\Core\Controllers;
 
-use SponsorAPI\Configs\RedisConfigurations;
-
 class RedisController
 {
 
@@ -11,25 +9,25 @@ class RedisController
 
     private int $port;
 
-    private string $socket;
+    private ?string $socket;
 
     private \Redis $redisInstance;
 
-    public function __construct()
+    public function __construct(string $host, int $port, ?string $socket = null)
     {
-        $this->host = RedisConfigurations::IP;
-        $this->port = RedisConfigurations::PORT;
-        $this->socket = RedisConfigurations::SOCKET;
+        $this->host = $host;
+        $this->port = $port;
+        $this->socket = $socket;
     }
 
     private function initialize()
     {
         if ($this->redisInstance == null) {
             $this->redisInstance = new \Redis();
-            if(RedisConfigurations::USE_SOCKET) {
-                $isServerAdded = $this->redisInstance->connect($this->socket);
+            if($this->socket !== null) {
+                $this->redisInstance->connect($this->socket);
             } else {
-                $isServerAdded = $this->redisInstance->connect($this->host, $this->port);
+                $this->redisInstance->connect($this->host, $this->port);
             }
         }
     }

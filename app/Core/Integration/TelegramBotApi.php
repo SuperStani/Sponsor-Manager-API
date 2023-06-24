@@ -35,7 +35,7 @@ class TelegramBotApi
             "timeout" => 5
         ];
         $query_params = http_build_query($args);
-        $url = $this->api_url . "bot" . $this->bot_token . "/" . $method . "?" . $query_params;
+        $url = $this->api_url . $this->bot_token . "/" . $method . "?" . $query_params;
         $res = $this->request->get($url, $options);
         if($res->getStatusCode() == 200) {
             return $res->getBody();
