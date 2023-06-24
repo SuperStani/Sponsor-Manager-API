@@ -35,7 +35,7 @@ class APIController
                 $this->addChannel();
                 break;
 
-            case 'checkUserOnChannel':
+            case 'checkUser':
                 $this->checkUser();
         }
     }

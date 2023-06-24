@@ -11,13 +11,14 @@ class RedisController
 
     private ?string $socket;
 
-    private \Redis $redisInstance;
+    private ?\Redis $redisInstance;
 
     public function __construct(string $host, int $port, ?string $socket = null)
     {
         $this->host = $host;
         $this->port = $port;
         $this->socket = $socket;
+        $this->redisInstance = null;
     }
 
     private function initialize()
