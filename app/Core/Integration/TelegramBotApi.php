@@ -3,7 +3,7 @@
 
 namespace SponsorAPI\Core\Integration;
 
-
+use Exception;
 use GuzzleHttp\Client;
 
 class TelegramBotApi
@@ -21,16 +21,16 @@ class TelegramBotApi
 
     public function checkUserSubscribedOnChannel(int $user_id, int $channel_id): bool
     {
-        $response = json_decode($this->apiRequest('getChatMember', ["channel_id" => $channel_id, "user_id" => $user_id]), true);
+        $response = json_decode($this->apiRequest('getChatMember', ["chat_id" => $channel_id, "user_id" => $user_id]), true);
         if($response !== null) {
-            if(isset($response['status']) && $response['status'] == 'Member') {
+            if($response['ok'] == true && $response['result']['status'] !== 'left') {
                 return true;
             }
         }
         return false;
     }
 
-    private function apiRequest(string $method, ...$args): ?string
+    private function apiRequest(string $method, array $args): ?string
     {
         $options = [
             "connect_timeout" => 2,
@@ -38,9 +38,13 @@ class TelegramBotApi
         ];
         $query_params = http_build_query($args);
         $url = $this->api_url . $this->bot_token . "/" . $method . "?" . $query_params;
-        $res = $this->request->get($url, $options);
-        if($res->getStatusCode() == 200) {
-            return $res->getBody();
+        try {
+            $res = $this->request->get($url, $options);
+            if($res->getStatusCode() == 200) {
+                return $res->getBody();
+            }
+        } catch (Exception $e) {
+
         }
         return null;
     }
