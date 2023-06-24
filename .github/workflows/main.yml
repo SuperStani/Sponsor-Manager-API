@@ -1,0 +1,26 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: SSH Deploy
+        uses: appleboy/ssh-action@v0.2.0
+        with:
+          host: 167.235.207.71
+          username: gituser
+          key: ${{ secrets.AAAAB3NzaC1yc2EAAAADAQABAAACAQDV2blIqVFoc5p+0PtNofixw4vkczLLXVL0cZkaCDPClyiTNBXgZL+y4nHjn+6awk3NOVaJ2+s3JnnNE6WA3qxdPQDUyrg7CCuicj6+tEt9tekwTP1hvwfQi5Asa/aTtYKepoy84n6CXT8vNIONfJa5KGk6+OB79Xk853+KafvB2e8MbsYPXkyB9Qdr+oFbcPiUcHRs3rVXWlaiG213NJnpPtj215d5gmLWVsYOiboaTqK5w9N1asxvluGyMHXfippvK3b28lOT24iyd34jLWXy617FFMAodcmzI9TkhE5QpbY7I5YQb9fQ883PPouYKe+7QLe6hKuvaT8zJIf8vbSeRWVhdAbJZQ1KXfQWyWuGcA5V0HOLybBA07b+oyxy1dZ7Xwue1kFH9MIjJfkCy2l1FMkPHsKVksNkkBhCpLFMTLS8p5FNlAOYHnNXo4xwN2uM68pNd4lTOqmBplLn8rMkQYFsmZMAh2CPlk/zrIse+67SPY1yxkDhJtCoB5LXxekjVrXR+Rn8cH0Nk0MGN3ELLTMwqVAmOMOgs46XySRBKjSDLqIdHqiYEekIvCbXW2cbvH3YkE8BrEPwWzU5IhjfKxQ98ExfmM8e1WHDhEslAaMWmvAU+n1sSDIr0l7guiyO8lnLl8X5UtTAovbE2Gmeh0LE7tpb55wnBsc6y6CCkQ== }}
+          script: |
+            cd /scripts/sponsorManager/
+            git fetch --all
+            git pull origin master
+            # Additional deployment steps
