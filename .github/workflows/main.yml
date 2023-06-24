@@ -21,6 +21,5 @@ jobs:
           password: ${{ secrets.NETFLUZ_GITUSER_PASSWORD }}
           script: |
             cd /scripts/sponsorManager/
-            git fetch --all
             git pull origin master
             # Additional deployment steps
