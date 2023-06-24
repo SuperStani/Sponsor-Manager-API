@@ -40,10 +40,13 @@ class ChannelsRepository
             ORDER by channels.datetime LIMIT 5
         ";
         $res = $this->db->query($query, $bot_username);
-        $data = [];
-        foreach ($res as $row) {
-            $data[] = ['channel_id' => $row['channel_id'], "invite_url" => $row['invite_url']];
+        if($res) {
+            $data = [];
+            foreach ($res as $row) {
+                $data[] = ['channel_id' => $row['channel_id'], "invite_url" => $row['invite_url']];
+            }
+            return $data;
         }
-        return $data;
+        return [];
     }
 }
