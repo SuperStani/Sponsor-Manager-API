@@ -10,7 +10,7 @@ interface DatabaseCredentials
 
     public const PORT = 3306;
 
-    public const USER = "admin";
+    public const USER = "root";
 
     public const PASSWORD = "@Naruto96";
 
