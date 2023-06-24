@@ -1,0 +1,25 @@
+{
+  "name": "sponsor_api/src",
+  "description": "description_text",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Stanislav Zatic",
+      "email": "stanislavzatic.dev@gmail.com"
+    }
+  ],
+  "require": {
+    "php-di/php-di": "6.0.5",
+    "ext-mysqli": "*",
+    "ext-json": "*",
+    "guzzlehttp/guzzle": "6.3.3",
+    "ext-redis": "*",
+    "ext-pdo": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "SponsorAPI\\": "app/"
+    }
+  }
+}
