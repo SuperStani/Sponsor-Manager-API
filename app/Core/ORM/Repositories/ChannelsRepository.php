@@ -25,7 +25,7 @@ class ChannelsRepository
                  SELECT c.channel_id, c.invite_url, c.datetime, c.bot_username
                  FROM channels c
                  WHERE c.users_range IS NOT NULL
-                   AND c.users_range <= c.earned_users
+                   AND c.users_range > c.earned_users
                  UNION
                  SELECT c1.channel_id, c1.invite_url, c1.datetime, c1.bot_username
                  FROM channels c1
