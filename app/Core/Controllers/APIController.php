@@ -73,7 +73,7 @@ class APIController
     private function addJoinedUser()
     {
         if (isset($_GET['invite_url'], $_GET['user_id'])) {
-            if ($this->channelsService->addJoinedUser($_GET['invite_url'], $_GET['user_id'])) {
+            if ($this->channelsService->addJoinedUser(rawurldecode($_GET['invite_url']), $_GET['user_id'])) {
                 $this->response['result'] = true;
                 $this->response['message'] = "User has registered in statistics";
             }
