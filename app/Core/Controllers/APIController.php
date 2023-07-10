@@ -37,6 +37,9 @@ class APIController
 
             case 'checkUser':
                 $this->checkUser();
+                break;
+            case 'addJoinedUser':
+                $this->addJoinedUser();
         }
     }
 
@@ -63,6 +66,14 @@ class APIController
                     }
                 }
                 $this->response = $data;
+            }
+        }
+    }
+
+    private function addJoinedUser() {
+        if(isset($_GET['invite_url'], $_GET['user_id'])) {
+            if($this->channelsService->addJoinedUser($_GET['invite_url'], $_GET['user_id'])) {
+                $this->response['message'] = "User has registered in statistics";
             }
         }
     }

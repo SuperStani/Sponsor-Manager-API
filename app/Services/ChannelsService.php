@@ -22,7 +22,7 @@ class ChannelsService
 
     public function getInviteUrls(string $bot_username): array|bool
     {
-        if(($data = $this->cacheService->getInviteUrls(bot_username: $bot_username)) === false) {
+        if (($data = $this->cacheService->getInviteUrls(bot_username: $bot_username)) === false) {
             $data = $this->channelsRepository->getInviteUrlsByBotUsername(bot_username: $bot_username);
             $this->cacheService->saveInviteUrls(bot_username: $bot_username, value: $data);
         }
@@ -32,6 +32,11 @@ class ChannelsService
     public function checkUserOnChannel(int $channel_id, int $user_id): bool
     {
         return $this->telegramBotApi->checkUserSubscribedOnChannel(user_id: $user_id, channel_id: $channel_id);
+    }
+
+    public function addJoinedUser(string $invite_link, int $user_id): bool
+    {
+        return $this->channelsRepository->addJoinedUser($invite_link, $user_id) !== null;
     }
 
 }
