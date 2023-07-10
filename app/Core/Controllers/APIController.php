@@ -52,7 +52,7 @@ class APIController
     {
         if (isset($_GET['bot_username'], $_GET['user_id'])) {
             $channelsData = $this->channelsService->getInviteUrls($_GET['bot_username']);
-            if(is_array($channelsData)) {
+            if (is_array($channelsData)) {
                 $data = ["result" => true, "user_id" => $_GET['user_id'], "channels" => [], "is_subscribed_all" => true];
                 foreach ($channelsData as $channel) {
                     $is_subscribed = $this->channelsService->checkUserOnChannel($channel['channel_id'], $_GET['user_id']);
@@ -70,9 +70,11 @@ class APIController
         }
     }
 
-    private function addJoinedUser() {
-        if(isset($_GET['invite_url'], $_GET['user_id'])) {
-            if($this->channelsService->addJoinedUser($_GET['invite_url'], $_GET['user_id'])) {
+    private function addJoinedUser()
+    {
+        if (isset($_GET['invite_url'], $_GET['user_id'])) {
+            if ($this->channelsService->addJoinedUser($_GET['invite_url'], $_GET['user_id'])) {
+                $this->response['result'] = true;
                 $this->response['message'] = "User has registered in statistics";
             }
         }
