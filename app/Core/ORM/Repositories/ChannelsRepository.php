@@ -51,7 +51,7 @@ class ChannelsRepository
 
     public function addJoinedUser(string $invite_link, int $user_id): ?\PDOStatement
     {
-        $sql = "UPDATE channels SET earned_users = earned_user + 1 WHERE invite_link = ?";
+        $sql = "UPDATE channels SET earned_users = earned_user + 1 WHERE invite_url = ?";
         return $this->db->query($sql, $invite_link);
     }
 }
