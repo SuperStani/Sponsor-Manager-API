@@ -16,10 +16,9 @@ jobs:
       - name: SSH Deploy
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: 167.235.207.71
-          username: gituser
+          host: ${{ secrets.NETFLUZ_HOST }}
+          username: ${{ secrets.NETFLUZ_USER }}
           password: ${{ secrets.NETFLUZ_GITUSER_PASSWORD }}
           script: |
             cd /scripts/sponsorManager/
             git pull origin master
-            # Additional deployment steps
