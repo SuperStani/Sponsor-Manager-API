@@ -56,7 +56,7 @@ class APIController
                 $data = ["result" => true, "user_id" => $_GET['user_id'], "channels" => [], "is_subscribed_all" => true];
                 foreach ($channelsData as $channel) {
                     $is_subscribed = $this->channelsService->checkUserOnChannel($channel['channel_id'], $_GET['user_id']);
-                    $data['channels'] = [
+                    $data['channels'][] = [
                         'id' => $channel['channel_id'],
                         "is_subscribed" => $is_subscribed,
                         "invite_url" => $channel['invite_url']
