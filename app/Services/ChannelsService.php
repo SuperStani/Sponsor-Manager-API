@@ -23,7 +23,11 @@ class ChannelsService
     public function getInviteUrls(string $bot_username): array|bool
     {
         if (($data = $this->cacheService->getInviteUrls(bot_username: $bot_username)) === false) {
-            $data = $this->channelsRepository->getInviteUrlsByBotUsername(bot_username: $bot_username);
+            $res = $this->channelsRepository->getInviteUrlsByBotUsername(bot_username: $bot_username);
+            $data = [];
+            foreach ($res as $row) {
+                $data[] = ['channel_id' => $row['channel_id'], "invite_url" => $row['invite_url']];
+            }
             $this->cacheService->saveInviteUrls(bot_username: $bot_username, value: $data);
         }
         return $data;
@@ -37,6 +41,11 @@ class ChannelsService
     public function addJoinedUser(string $invite_link, int $user_id): bool
     {
         return $this->channelsRepository->addJoinedUser($invite_link, $user_id) !== null;
+    }
+
+    public function updateEarnedUsers()
+    {
+        //$this->channelsRepository->
     }
 
 }

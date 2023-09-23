@@ -18,7 +18,7 @@ class CacheService
     public function saveInviteUrls(string $bot_username, mixed $value): bool
     {
         try {
-            $this->redisController->setKey(GeneralConfigurations::APP_PREFIX . "_INVITE_URLS_" . $bot_username, json_encode($value), 20);
+            $this->redisController->setKey(GeneralConfigurations::APP_PREFIX . "_INVITE_URLS_" . $bot_username, json_encode($value), 5);
             return true;
         } catch (\Exception $e) {
             return false;

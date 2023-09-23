@@ -21,13 +21,22 @@ class TelegramBotApi
 
     public function checkUserSubscribedOnChannel(int $user_id, int $channel_id): bool
     {
-        $response = json_decode($this->apiRequest('getChatMember', ["chat_id" => $channel_id, "user_id" => $user_id]), true);
-        if($response !== null) {
-            if($response['ok'] == true && $response['result']['status'] !== 'left') {
+        $response = $this->apiRequest('getChatMember', ["chat_id" => $channel_id, "user_id" => $user_id]);
+        if ($response !== null) {
+            if ($response['ok'] == true && $response['result']['status'] !== 'left') {
                 return true;
             }
         }
         return false;
+    }
+
+    public function getChatIdMembers(int $chat_id): int
+    {
+        $response = $this->apiRequest('getChatMemberCount', ["chat_id" => $chat_id]);
+        if($response !== null) {
+            return $response['result'];
+        }
+        return 0;
     }
 
     private function apiRequest(string $method, array $args): ?string
@@ -40,11 +49,10 @@ class TelegramBotApi
         $url = $this->api_url . $this->bot_token . "/" . $method . "?" . $query_params;
         try {
             $res = $this->request->get($url, $options);
-            if($res->getStatusCode() == 200) {
-                return $res->getBody();
+            if ($res->getStatusCode() == 200) {
+                return json_decode($res->getBody(), true);
             }
         } catch (Exception $e) {
-
         }
         return null;
     }
