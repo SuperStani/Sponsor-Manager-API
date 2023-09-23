@@ -60,7 +60,7 @@ class ChannelsRepository
     {
         $query = "
                 SELECT
-                       channels.sposnor_id,
+                       channels.sponsor_id,
                        channels.channel_id,
                        channels.invite_url,
                        channels.total_members
