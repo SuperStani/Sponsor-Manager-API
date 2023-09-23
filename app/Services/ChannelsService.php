@@ -25,8 +25,8 @@ class ChannelsService
         if (($data = $this->cacheService->getInviteUrls(bot_username: $bot_username)) === false) {
             $res = $this->channelsRepository->getInviteUrlsByBotUsername(bot_username: $bot_username);
             $data = [];
-            foreach ($res as $row) {
-                $data[] = ['channel_id' => $row['channel_id'], "invite_url" => $row['invite_url']];
+            foreach ($res as $channel) {
+                $data[] = ['channel_id' => $channel->getId(), "invite_url" => $channel->getInviteUrl()];
             }
             $this->cacheService->saveInviteUrls(bot_username: $bot_username, value: $data);
         }

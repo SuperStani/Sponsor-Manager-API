@@ -17,19 +17,19 @@ class ChannelsRepository
         $this->db = $db;
     }
 
-    public function getInviteUrlsByBotUsername(string $bot_username): array
+    public function getInviteUrlsByBotUsername(string $bot_username): array|\Generator
     {
         $query = "
-        SELECT channels.channel_id,
-               channels.invite_url,
-               channels.bot_username
+        SELECT 
+               channels.channel_id,
+               channels.invite_url
         FROM (
-                 SELECT c.channel_id, c.invite_url, c.datetime, c.bot_username
+                 SELECT c.id as sponsor_id, c.channel_id, c.invite_url, c.datetime, c.bot_username
                  FROM channels c
                  WHERE c.users_range IS NOT NULL
                    AND c.users_range > c.earned_users
                  UNION
-                 SELECT c1.channel_id, c1.invite_url, c1.datetime, c1.bot_username
+                 SELECT c1.id as sponsor_id, c1.channel_id, c1.invite_url, c1.datetime, c1.bot_username
                  FROM channels c1
                  WHERE c1.datetime_start < NOW()
                    AND c1.datetime_stop > NOW()
@@ -37,17 +37,14 @@ class ChannelsRepository
                  LIMIT 5 -- Limit the results in the subquery
              ) channels
         WHERE channels.bot_username = ?
-        ORDER by channels.datetime
+        ORDER by channels.sponsor_id, channels.datetime
         LIMIT 5
         ";
         $res = $this->db->query($query, $bot_username);
         if ($res) {
-            return $res->fetchAll(PDO::FETCH_CLASS, ChannelEntity::class);
-            $data = [];
             foreach ($res as $row) {
-                $data[] = ['channel_id' => $row['channel_id'], "invite_url" => $row['invite_url']];
+                yield new ChannelEntity($row['channel_id'], $row['invite_url']);
             }
-            return $data;
         }
         return [];
     }
