@@ -26,7 +26,7 @@ class ChannelsService
             $res = $this->channelsRepository->getInviteUrlsByBotUsername(bot_username: $bot_username);
             $data = [];
             foreach ($res as $channel) {
-                $data[] = ['channel_id' => $channel->getId(), "invite_url" => $channel->getInviteUrl()];
+                $data[] = ['channel_id' => $channel->getChatId(), "invite_url" => $channel->getInviteUrl()];
             }
             $this->cacheService->saveInviteUrls(bot_username: $bot_username, value: $data);
         }
