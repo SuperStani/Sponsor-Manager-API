@@ -39,7 +39,7 @@ class TelegramBotApi
         return 0;
     }
 
-    private function apiRequest(string $method, array $args): ?string
+    private function apiRequest(string $method, array $args): ?array
     {
         $options = [
             "connect_timeout" => 2,
