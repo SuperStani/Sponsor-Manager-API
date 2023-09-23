@@ -50,6 +50,7 @@ class ChannelsService
             echo "UPDATING id: " . $channel->getChatId() . PHP_EOL;
             $users = $this->telegramBotApi->getChatIdMembers($channel->getChatId());
             $this->channelsRepository->updateChannelUsers($channel, $users);
+            usleep(70000);
         }
     }
 
