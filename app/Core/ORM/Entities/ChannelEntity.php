@@ -6,31 +6,35 @@ namespace SponsorAPI\Core\ORM\Entities;
 
 class ChannelEntity
 {
-    private int $id;
+    private ?int $id;
+    private int $chatId;
     private ?string $title;
     private string $inviteUrl;
+    private ?int $members;
 
-    public function __construct(int $id, string $inviteUrl, ?string $title = null)
+    public function __construct(int $chatId, string $inviteUrl, ?int $members = null, ?string $title = null, ?int $id = null)
     {
-        $this->id = $id;
+        $this->chatId = $chatId;
         $this->title = $title;
         $this->inviteUrl = $inviteUrl;
+        $this->members = $members;
+        $this->id = $id;
     }
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getChatId(): int
     {
-        return $this->id;
+        return $this->chatId;
     }
 
     /**
-     * @param int $id
+     * @param int $chatId
      */
-    public function setId(int $id): void
+    public function setChatId(int $chatId): void
     {
-        $this->id = $id;
+        $this->chatId = $chatId;
     }
 
     /**
@@ -58,10 +62,43 @@ class ChannelEntity
     }
 
     /**
-     * @param string|null $inviteUrl
+     * @param string $inviteUrl
      */
-    public function setInviteUrl(?string $inviteUrl): void
+    public function setInviteUrl(string $inviteUrl): void
     {
         $this->inviteUrl = $inviteUrl;
     }
+
+    /**
+     * @return int
+     */
+    public function getMembers(): int
+    {
+        return $this->members;
+    }
+
+    /**
+     * @param int $members
+     */
+    public function setMembers(int $members): void
+    {
+        $this->members = $members;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int|null $id
+     */
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
 }

@@ -45,7 +45,12 @@ class ChannelsService
 
     public function updateEarnedUsers()
     {
-        //$this->channelsRepository->
+        $channels = $this->channelsRepository->getActiveSponsors();
+        foreach($channels as $channel) {
+            echo "UPDATING id: " . $channel->getChatId() . PHP_EOL;
+            $users = $this->telegramBotApi->getChatIdMembers($channel->getChatId());
+            $this->channelsRepository->updateChannelUsers($channel, $users);
+        }
     }
 
 }
