@@ -43,7 +43,7 @@ class ChannelsService
         return $this->channelsRepository->addJoinedUser($invite_link, $user_id) !== null;
     }
 
-    public function updateEarnedUsers()
+    public function updateEarnedUsers(): void
     {
         $channels = $this->channelsRepository->getActiveSponsors();
         foreach($channels as $channel) {
