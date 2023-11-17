@@ -34,11 +34,11 @@ class ChannelsRepository
                  WHERE c1.datetime_start < NOW()
                    AND c1.datetime_stop > NOW()
                  ORDER BY datetime -- Add an ORDER BY clause to specify the desired order
-                 LIMIT 6 -- Limit the results in the subquery
+                 LIMIT 8 -- Limit the results in the subquery
              ) channels
         WHERE channels.bot_username = ?
         ORDER by channels.sponsor_id, channels.datetime
-        LIMIT 6
+        LIMIT 8
         ";
         $res = $this->db->query($query, $bot_username);
         if ($res) {
@@ -75,10 +75,10 @@ class ChannelsRepository
                          WHERE c1.datetime_start < NOW()
                            AND c1.datetime_stop > NOW()
                          ORDER BY datetime -- Add an ORDER BY clause to specify the desired order
-                         LIMIT 6 -- Limit the results in the subquery
+                         LIMIT 8 -- Limit the results in the subquery
                      ) channels
                 ORDER by channels.sponsor_id, channels.datetime
-                LIMIT 6
+                LIMIT 8
         ";
         $res = $this->db->query($query);
         if ($res) {
