@@ -94,7 +94,7 @@ class ChannelsRepository
         return null;
     }
 
-    public function updateChannelUsers(ChannelEntity $channelEntity, $users)
+    public function updateChannelUsers(ChannelEntity $channelEntity, $users): void
     {
         $earned = ($channelEntity->getMembers() > 0 && ($total = $users - $channelEntity->getMembers()) > 0) ? $total : 0;
         $sql = "UPDATE channels SET earned_users = earned_users + ?, total_members = ? WHERE id = ?";
