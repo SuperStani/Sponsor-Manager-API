@@ -63,16 +63,8 @@ class ChannelsRepository
                          FROM channels c
                          WHERE c.users_range IS NOT NULL
                            AND c.users_range > c.earned_users
-                         UNION
-                         SELECT c1.id as sponsor_id, c1.channel_id, c1.invite_url, c1.datetime, c1.total_members
-                         FROM channels c1
-                         WHERE c1.datetime_start < NOW()
-                           AND c1.datetime_stop > NOW()
-                         ORDER BY datetime -- Add an ORDER BY clause to specify the desired order
-                         LIMIT 8 -- Limit the results in the subquery
                      ) channels
                 ORDER by channels.sponsor_id, channels.datetime
-                LIMIT 8
         ";
         $res = $this->db->query($query);
         if ($res) {
