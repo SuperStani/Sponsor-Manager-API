@@ -28,18 +28,13 @@ class ChannelsRepository
                  FROM channels c
                  WHERE c.users_range IS NOT NULL
                    AND c.users_range > c.earned_users
-                 UNION
-                 SELECT c1.id as sponsor_id, c1.channel_id, c1.invite_url, c1.datetime, c1.bot_username
-                 FROM channels c1
-                 WHERE c1.datetime_start < NOW()
-                   AND c1.datetime_stop > NOW()
-                 ORDER BY datetime -- Add an ORDER BY clause to specify the desired order
+                   AND c.bot_username = ?
              ) channels
         WHERE channels.bot_username = ?
         ORDER by channels.sponsor_id, channels.datetime
         LIMIT 8
         ";
-        $res = $this->db->query($query, $bot_username);
+        $res = $this->db->query($query, $bot_username, $bot_username);
         if ($res) {
             foreach ($res as $row) {
                 yield new ChannelEntity($row['channel_id'], $row['invite_url']);
