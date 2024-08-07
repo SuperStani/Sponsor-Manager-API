@@ -6,7 +6,7 @@ use SponsorAPI\Core\ORM\Entities\MiniSponsorEntity;
 
 class MiniSponsorsRepository extends BaseRepository
 {
-    public const TABLE = 'MiniSponsors';
+    public const TABLE = 'mini_sponsors';
 
     public function getActiveMiniSponsorByBotUsername(string $bot_username): MiniSponsorEntity|null
     {
