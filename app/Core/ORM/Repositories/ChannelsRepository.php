@@ -8,14 +8,8 @@ use PDO;
 use SponsorAPI\Core\ORM\DB;
 use SponsorAPI\Core\ORM\Entities\ChannelEntity;
 
-class ChannelsRepository
+class ChannelsRepository extends BaseRepository
 {
-    private DB $db;
-
-    public function __construct(DB $db)
-    {
-        $this->db = $db;
-    }
 
     public function getInviteUrlsByBotUsername(string $bot_username): ?\Generator
     {

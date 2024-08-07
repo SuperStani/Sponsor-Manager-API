@@ -3,7 +3,9 @@
 
 namespace SponsorAPI\Core\Controllers;
 
+use SponsorAPI\Core\ORM\Entities\MiniSponsorEntity;
 use SponsorAPI\Services\ChannelsService;
+use SponsorAPI\Services\MiniSponsorsService;
 
 class APIController
 {
@@ -13,22 +15,25 @@ class APIController
 
     private ChannelsService $channelsService;
 
-    public function __construct(ChannelsService $channelsService)
+    private MiniSponsorsService $miniSponsorsService;
+
+    public function __construct(ChannelsService $channelsService, MiniSponsorsService $miniSponsorsService)
     {
         $this->response = [
             "result" => false,
             "message" => "Bad request"
         ];
         $this->channelsService = $channelsService;
+        $this->miniSponsorsService = $miniSponsorsService;
     }
 
-    public function init()
+    public function init(): void
     {
         header("Content-Type: application/json");
         $this->action = $_GET['action'] ?? null;
     }
 
-    public function process()
+    public function process(): void
     {
         switch ($this->action) {
             case 'addChannel':
@@ -40,6 +45,9 @@ class APIController
                 break;
             case 'addJoinedUser':
                 $this->addJoinedUser();
+                break;
+            case 'getMiniSponsor':
+                $this->addJoinedUser();
         }
     }
 
@@ -48,7 +56,7 @@ class APIController
 
     }
 
-    private function checkUser()
+    private function checkUser(): void
     {
         if (isset($_GET['bot_username'], $_GET['user_id'])) {
             $channelsData = $this->channelsService->getInviteUrls($_GET['bot_username']);
@@ -70,12 +78,25 @@ class APIController
         }
     }
 
-    private function addJoinedUser()
+    private function addJoinedUser(): void
     {
         if (isset($_GET['invite_url'], $_GET['user_id'])) {
             if ($this->channelsService->addJoinedUser(rawurldecode($_GET['invite_url']), $_GET['user_id'])) {
                 $this->response['result'] = true;
                 $this->response['message'] = "User has registered in statistics";
+            }
+        }
+    }
+
+    private function getMiniSponsor(): void
+    {
+        if (isset($_GET['bot_username'])) {
+            if (($sponsor = $this->miniSponsorsService->getActiveMiniSponsorByBotUsername($_GET['bot_username'])) !== false) {
+                $this->response['result'] = true;
+                $this->response['sponsor_message'] = $sponsor->getMessage();
+            } else {
+                $this->response['result'] = false;
+                $this->response['message'] = "No Sponsor active found";
             }
         }
     }

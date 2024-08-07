@@ -5,6 +5,7 @@ namespace SponsorAPI\Services;
 
 use SponsorAPI\Configs\GeneralConfigurations;
 use SponsorAPI\Core\Controllers\RedisController;
+use SponsorAPI\Core\ORM\Entities\MiniSponsorEntity;
 
 class CacheService
 {
@@ -29,6 +30,26 @@ class CacheService
     {
         try {
             return json_decode($this->redisController->getKey(GeneralConfigurations::APP_PREFIX . "_INVITE_URLS_" . $bot_username), true) ?? false;
+        } catch (\Exception $e) {
+
+        }
+        return false;
+    }
+
+    public function saveMiniSponsor(MiniSponsorEntity $sponsor): bool
+    {
+        try {
+            $this->redisController->setKey(GeneralConfigurations::APP_PREFIX . "_MINI_SPONSOR_" . $sponsor->getBotUsername(), serialize($sponsor), $sponsor->getLifeTimeSeconds());
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    public function getMiniSponsor(string $bot_username): MiniSponsorEntity|false
+    {
+        try {
+            return unserialize($this->redisController->getKey(GeneralConfigurations::APP_PREFIX . "_MINI_SPONSOR_" . $bot_username)) ?? false;
         } catch (\Exception $e) {
 
         }
