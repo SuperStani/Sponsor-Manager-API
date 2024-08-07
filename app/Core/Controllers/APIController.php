@@ -93,7 +93,11 @@ class APIController
         if (isset($_GET['bot_username'])) {
             if (($sponsor = $this->miniSponsorsService->getActiveMiniSponsorByBotUsername($_GET['bot_username'])) !== false) {
                 $this->response['result'] = true;
-                $this->response['sponsor_message'] = $sponsor->getMessage();
+                $this->response['message'] = "Result found";
+                $this->response['sponsor'] = [
+                    'message' => $sponsor->getMessage(),
+                    'datetime_stop' => $sponsor->getDatetimeStop()
+                ];
             } else {
                 $this->response['result'] = false;
                 $this->response['message'] = "No Sponsor active found";
