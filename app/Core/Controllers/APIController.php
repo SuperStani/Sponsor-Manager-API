@@ -47,7 +47,7 @@ class APIController
                 $this->addJoinedUser();
                 break;
             case 'getMiniSponsor':
-                $this->addJoinedUser();
+                $this->getMiniSponsor();
         }
     }
 
