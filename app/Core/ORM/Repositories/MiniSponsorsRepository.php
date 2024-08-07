@@ -17,6 +17,7 @@ class MiniSponsorsRepository extends BaseRepository
                 message, 
                 datetime_start, 
                 datetime_stop 
+            FROM " . self::TABLE . "
             WHERE 
                 bot_username = ?
                 AND datetime_start <= NOW() 
