@@ -35,7 +35,7 @@ class MiniSponsorsService
                     ($interval->h * 60 * 60) +
                     ($interval->i * 60) +
                     $interval->s;
-                $sponsor->setLifeTimeSeconds((int)$seconds / 2);
+                $sponsor->setLifeTimeSeconds(300);
                 $this->cacheService->saveMiniSponsor($sponsor);
                 return $sponsor;
             }
