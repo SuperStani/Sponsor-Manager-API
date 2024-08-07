@@ -25,7 +25,7 @@ class MiniSponsorsRepository extends BaseRepository
             LIMIT 1
         ";
         $res = $this->db->query($sql, $bot_username)->fetch();
-        if ($res['id']) {
+        if (isset($res['id'])) {
             $sponsor = new MiniSponsorEntity();
             $sponsor->setId($res['id']);
             $sponsor->setBotUsername($res['bot_username']);

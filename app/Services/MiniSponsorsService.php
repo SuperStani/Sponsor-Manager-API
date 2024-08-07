@@ -41,6 +41,7 @@ class MiniSponsorsService
             }
             return false;
         }
+        echo "Cache " . $sponsor->getLifeTimeSeconds();
         return $sponsor;
     }
 }
