@@ -5,19 +5,20 @@ namespace SponsorAPI\Services;
 
 
 use SponsorAPI\Core\Integration\TelegramBotApi;
+use SponsorAPI\Core\ORM\Repositories\ChannelPendingRequestsRepository;
 use SponsorAPI\Core\ORM\Repositories\ChannelsRepository;
 
 class ChannelsService
 {
-    private ChannelsRepository $channelsRepository;
-    private TelegramBotApi $telegramBotApi;
-    private CacheService $cacheService;
 
-    public function __construct(ChannelsRepository $channelsRepository, TelegramBotApi $telegramBotApi, CacheService $cacheService)
+
+    public function __construct(
+        private ChannelsRepository               $channelsRepository,
+        private TelegramBotApi                   $telegramBotApi,
+        private CacheService                     $cacheService,
+        private ChannelPendingRequestsRepository $channelPendingRequestsRepository
+    )
     {
-        $this->channelsRepository = $channelsRepository;
-        $this->telegramBotApi = $telegramBotApi;
-        $this->cacheService = $cacheService;
     }
 
     public function getInviteUrls(string $bot_username): array|bool
@@ -33,9 +34,11 @@ class ChannelsService
         return $data;
     }
 
-    public function checkUserOnChannel(int $channel_id, int $user_id): bool
+    public function checkUserOnChannel(int $channelId, int $userId, string $botUsername): bool
     {
-        return $this->telegramBotApi->checkUserSubscribedOnChannel(user_id: $user_id, channel_id: $channel_id);
+
+        return $this->channelPendingRequestsRepository->isUserPendingOnChannelId($userId, $channelId, $botUsername) ||
+            $this->telegramBotApi->checkUserSubscribedOnChannel(user_id: $userId, channel_id: $channelId);
     }
 
     public function addJoinedUser(string $invite_link, int $user_id): bool
@@ -46,7 +49,7 @@ class ChannelsService
     public function updateEarnedUsers(): void
     {
         $channels = $this->channelsRepository->getActiveSponsors();
-        foreach($channels as $channel) {
+        foreach ($channels as $channel) {
             echo "UPDATING id: " . $channel->getChatId() . PHP_EOL;
             $users = $this->telegramBotApi->getChatIdMembers($channel->getChatId());
             $this->channelsRepository->updateChannelUsers($channel, $users);
