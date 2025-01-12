@@ -23,19 +23,7 @@ class MiniSponsorsService
         if (($sponsor = $this->cacheService->getMiniSponsor($bot_username)) === false) {
             $sponsor = $this->miniSponsorsRepository->getActiveMiniSponsorByBotUsername($bot_username);
             if ($sponsor) {
-                try {
-                    $now = new DateTime();
-                    $finish = new DateTime($sponsor->getDatetimeStop());
-                } catch (\Exception $e) {
-                    return false;
-                }
-
-                $interval = $now->diff($finish);
-                $seconds = ($interval->days * 24 * 60 * 60) +
-                    ($interval->h * 60 * 60) +
-                    ($interval->i * 60) +
-                    $interval->s;
-                $sponsor->setLifeTimeSeconds(300);
+                $sponsor->setLifeTimeSeconds($bot_username == 'bestreaming_bot' ? 30 : 300);
                 $this->cacheService->saveMiniSponsor($sponsor);
                 return $sponsor;
             }
