@@ -11,7 +11,7 @@ class ChannelPendingRequestsRepository extends BaseRepository
     public function isUserPendingOnChannelId(int $userId, int $channelId, string $botUsername): bool
     {
         $sql = "SELECT COUNT(user_id) as tot FROM " . self::TABLE . " WHERE user_id = ? AND channel_id = ?";
-        $res = $this->db->query($sql, $botUsername, $userId, $channelId)->fetch()['tot'] ?? 0;
+        $res = $this->db->query($sql, $userId, $channelId)->fetch()['tot'] ?? 0;
         return $res > 0;
     }
 }
