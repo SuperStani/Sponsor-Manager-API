@@ -8,7 +8,7 @@ interface GeneralConfigurations
 {
     public const APP_PREFIX = "SponsorAPI";
 
-    public const BOT_TOKEN = "8f9f3b9eff7524256a57bdbcc75da866";
+    public const BOT_TOKEN = "7742122919:AAFlrAW00n70eSq04xZpgUXPNZ8AQ4V4xZo";
 
     public const TELEGRAM_API_URL = "https://api.telegram.org/bot";
 }
